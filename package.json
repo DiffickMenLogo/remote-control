@@ -3,20 +3,31 @@
     "version": "1.0.0",
     "description": "Template for the WebSocket remote control task",
     "main": "index.js",
-    "type": "module",
     "scripts": {
-        "start": "node ./index.js",
-        "start:dev": "nodemon ./index.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "start:prod": "tsc src/index.ts && node src/index.js",
+        "start:dev": "ts-node-dev index.ts",
+        "lint": "eslint . --ext .ts"
     },
-    "author": "Andrei Auchynnikau",
+    "author": "Ilya Fishtick",
     "keywords": [],
     "license": "ISC",
     "devDependencies": {
-        "nodemon": "^2.0.16"
+        "@types/ws": "^8.5.4",
+        "nodemon": "^2.0.20"
     },
     "dependencies": {
         "@nut-tree/nut-js": "^2.3.0",
-        "ws": "^8.8.0"
+        "@types/node": "^18.11.18",
+        "@typescript-eslint/eslint-plugin": "^5.48.2",
+        "@typescript-eslint/parser": "^5.48.2",
+        "cross-env": "^7.0.3",
+        "dotenv": "^16.0.3",
+        "eslint": "^8.32.0",
+        "eslint-plugin-prettier": "^4.2.1",
+        "jimp": "^0.16.2",
+        "ts-node": "^10.9.1",
+        "ts-node-dev": "^2.0.0",
+        "typescript": "^4.9.4",
+        "ws": "^8.12.0"
     }
 }
