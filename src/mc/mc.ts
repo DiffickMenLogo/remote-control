@@ -17,6 +17,5 @@ export const mouseRight = async (amount: number) => {
 };
 
 export const mousePosition = async () => {
-    const position = await mouse.getPosition();
-    return position;
+    return await mouse.getPosition();
 };

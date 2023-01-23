@@ -4,6 +4,7 @@ import { MessageEvent } from 'ws';
 import { env } from 'process';
 import * as WebSocket from 'ws';
 import { mouseDown, mouseLeft, mouseRight, mouseUp, mousePosition } from './src/mc/mc';
+import { printScreen } from './src/scrn/scrn';
 
 const HTTP_PORT = env.HTTP_PORT || 8181;
 const WS_PORT = env.WS_PORT || 8080;
@@ -16,7 +17,7 @@ const ws = new WebSocket.Server({ port: +WS_PORT });
 
 ws.on('connection', function connection(ws) {
     ws.on('message', function incoming(message: MessageEvent) {
-        console.log('received: %s_________', message);
+        console.log('received: %s', message);
         const command = message.toString().split(' ')[0];
         const amount = message.toString().split(' ')[1];
         switch (command) {
@@ -47,18 +48,25 @@ ws.on('connection', function connection(ws) {
                 mousePosition().then((position) => {
                     draw('draw_rectangle', position.x, position.y, +width, +height);
                 });
+                ws.send('draw_rectangle');
                 break;
             case 'draw_circle':
                 const radius = message.toString().split(' ')[1];
                 mousePosition().then((position) => {
                     draw('draw_circle', position.x, position.y, +radius, 0);
                 });
+                ws.send('draw_circle');
                 break;
             case 'draw_square':
                 const side = message.toString().split(' ')[1];
                 mousePosition().then((position) => {
                     draw('draw_square', position.x, position.y, +side, 0);
                 });
+                ws.send('draw_square');
+                break;
+            case 'prnt_scrn':
+                printScreen();
+                ws.send('prnt_scrn');
                 break;
             default:
                 ws.send('Unknown command');
@@ -69,6 +77,10 @@ ws.on('connection', function connection(ws) {
 
 ws.on('error', function (err) {
     console.log(err);
+});
+
+ws.on('close', function () {
+    console.log('Websocket server closed');
 });
 
 process.on('SIGINT', () => {
